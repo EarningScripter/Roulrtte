@@ -3,145 +3,101 @@
 <meta name="viewport" 
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <head>
-    <title>Roulette Script</title>
-    <style>
-        body {
-            background-color: #f0f0f0;
-            color: #333;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            margin-top: 30px;
-        }
+   <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f0f0f0;
+      animation: gradientBackground 5s infinite;
+    }
 
-        h1 {
-            color: #333;
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
+    @keyframes gradientBackground {
+      0% { background: #f0f0f0; }
+      50% { background: #f0f0f0; }
+      100% { background: #f9f9f9; }
+    }
 
-        #output {
-            padding: 20px;
-            margin: 40px auto;
-            font-size: 32px;
-            background-color: #fff;
-            border-radius: 8px;
-            width: 300px;
-            height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
+    .random-text {
+      font-size: 40px;
+      font-weight: bold;
+      display: none;
+      animation: blink 0.5s infinite;
+    }
 
-        #commandInput {
-            background-color: #fff;
-            color: #333;
-            font-family: 'Arial', sans-serif;
-            font-size: 18px;
-            width: 200px;
-            margin-top: 20px;
-            margin-bottom: 30px;
-            border: 2px solid #333;
-            border-radius: 4px;
-            padding: 10px;
-            outline: none;
-        }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
 
-        .button {
-            background-color: #333;
-            border: none;
-            color: #fff;
-            padding: 12px 24px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 18px;
-            margin: 10px;
-            cursor: pointer;
-            font-family: 'Arial', sans-serif;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
+    #random-container {
+      margin-top: 50px;
+    }
 
-        .button:hover {
-            background-color: #444;
-        }
+    #runButton {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+      margin-bottom: 10px;
+    }
 
-        .loading-text {
-            display: none;
-            font-size: 18px;
-            color: #333;
-            margin-top: 10px;
-        }
+    #runButton:hover {
+      background-color: #45a049;
+    }
 
-        .loading-spinner {
-            border: 4px solid rgba(0, 0, 0, 0.2);
-            border-top: 4px solid #333;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 2s linear infinite;
-            margin: 10px auto;
-            display: none;
-        }
+    #runButton:active {
+      background-color: #3e8e41;
+      box-shadow: 0 5px #666;
+      transform: translateY(4px);
+    }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
+    #inputContainer {
+      margin-top: 20px;
+    }
 
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    #inputBarContainer {
+      display: flex;
+      align-items: center;
+    }
+
+    #inputText {
+      margin-right: 10px;
+    }
+
+    #inputBar {
+      padding: 8px;
+      font-size: 16px;
+    }
+  </style>
 </head>
-
 <body>
-    <h1>Roulette Script</h1>
-    <div id="output"> ? </div>
-    <input type="text" id="commandInput" placeholder="Enter command (/start)">
+  <h1>Roulette Hack</h1>
+  <div id="random-container">
+    <p class="random-text" id="black">Black</p>
+    <p class="random-text" id="red">Red</p>
+  </div>
+
+  <div id="inputContainer">
+    <div id="inputBarContainer">
+      <span id="inputText">Game ID:</span>
+      <input type="number" id="inputBar" placeholder="Enter T.p Winner Game ID" step="1">
+    </div>
     <br>
-    <button class="button" onclick="generateText()">Send Command</button>
+    <button id="runButton">Run</button>
+  </div>
 
-    <!-- Loading spinner and text -->
-    <div class="loading-spinner" id="loadingSpinner"></div>
-    <div class="loading-text" id="loadingText">Generating...</div>
+  <script>
+    const blackText = document.getElementById('black');
+    const redText = document.getElementById('red');
+    const runButton = document.getElementById('runButton');
+    const inputBar = document.getElementById('inputBar');
 
-    <p id="errorMessage" style="display: none; color: red;">Error: Invalid command</p>
-    <p id="successMessage" style="display: none; color: lime;">Success: Command executed</p>
+    const randomTextList = ['Black', 'Red'];
 
-
-    <script>
-        function generateText() {
-            var input = document.getElementById("commandInput").value;
-            if (input === "/start") {
-                document.getElementById("loadingText").style.display = "block";
-                document.getElementById("loadingSpinner").style.display = "inline-block";
-                document.getElementById("output").innerText = "";
-                document.getElementById("errorMessage").style.display = "none";
-                document.getElementById("successMessage").style.display = "none";
-
-                setTimeout(function () {
-                    var newText = randomText();
-                    document.getElementById("output").innerText = newText;
-                    document.getElementById("loadingText").style.display = "none";
-                    document.getElementById("loadingSpinner").style.display = "none";
-                    document.getElementById("successMessage").style.display = "block";
-                }, 3000); // 3 seconds
-            } else {
-                document.getElementById("output").innerText = "";
-                document.getElementById("errorMessage").style.display = "block";
-                document.getElementById("successMessage").style.display = "none";
-            }
-        }
-
-        function randomText() {
-            var texts = ["red", "black"];
-            return texts[Math.floor(Math.random() * texts.length)];
-        }
-    </script>
-</body>
-
-</html>
+    runButton.addEventListener('click', () => {
+      // Add a button click animation
+      runButton.style.transform =
