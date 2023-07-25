@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
-<meta name="viewport" 
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <head>
-   <style>
+  <title>Random Text Generator</title>
+  <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
@@ -75,7 +74,7 @@
   </style>
 </head>
 <body>
-  <h1>Roulette Hack</h1>
+  <h1>Random Text Generator</h1>
   <div id="random-container">
     <p class="random-text" id="black">Black</p>
     <p class="random-text" id="red">Red</p>
@@ -84,7 +83,7 @@
   <div id="inputContainer">
     <div id="inputBarContainer">
       <span id="inputText">Game ID:</span>
-      <input type="number" id="inputBar" placeholder="Enter T.p Winner Game ID" step="1">
+      <input type="number" id="inputBar" placeholder="Enter Game ID" step="1">
     </div>
     <br>
     <button id="runButton">Run</button>
@@ -100,4 +99,27 @@
 
     runButton.addEventListener('click', () => {
       // Add a button click animation
-      runButton.style.transform =
+      runButton.style.transform = 'scale(0.95)';
+      setTimeout(() => (runButton.style.transform = 'scale(1)'), 100);
+
+      const inputValue = Number(inputBar.value);
+      if (!isNaN(inputValue)) {
+        const randomIndex = inputValue % randomTextList.length;
+        const randomText = randomTextList[randomIndex];
+
+        if (randomText === 'Black') {
+          blackText.style.display = 'block';
+          redText.style.display = 'none';
+        } else {
+          blackText.style.display = 'none';
+          redText.style.display = 'block';
+        }
+      } else {
+        // Hide both texts if input is not a valid number
+        blackText.style.display = 'none';
+        redText.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
